@@ -28,10 +28,24 @@ namespace CheckoutSystem.Services
         public int GetTotalPrice()
         {
             int totalPrice = 0;
+
             foreach (var item in _items)
             {
-                totalPrice += _pricingRules[item.Key].UnitPrice * item.Value;
+                if (_pricingRules.ContainsKey(item.Key))
+                {
+                    var pricingRule = _pricingRules[item.Key];
+                    int quantity = item.Value;
+
+                    if (pricingRule.SpecialQuantity > 0 && quantity >= pricingRule.SpecialQuantity)
+                    {
+                        totalPrice += (quantity / pricingRule.SpecialQuantity) * pricingRule.SpecialPrice;
+                        quantity %= pricingRule.SpecialQuantity;
+                    }
+
+                    totalPrice += quantity * pricingRule.UnitPrice;
+                }
             }
+
             return totalPrice;
         }
     }
