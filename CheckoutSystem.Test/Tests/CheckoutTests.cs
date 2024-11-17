@@ -37,5 +37,19 @@ namespace CheckoutSystem.Test.Tests
             Assert.AreEqual(50, checkout.GetTotalPrice());
         }
 
+        [Test]
+        public void Scan_ThreeItemsWithSpecialPrice_ReturnsDiscountedPrice()
+        {
+            var pricingRules = new Dictionary<string, PricingRule>
+            {
+                { "A", new PricingRule(50, 3, 130) }
+            };
+
+            ICheckout checkout = new Checkout(pricingRules);
+            checkout.Scan("A");
+            checkout.Scan("A");
+            checkout.Scan("A");
+            Assert.AreEqual(130, checkout.GetTotalPrice());
+        }
     }
 }
