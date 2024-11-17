@@ -43,5 +43,42 @@ namespace CheckoutSystem.Test.Tests
             checkout.Scan("A");
             Assert.AreEqual(130, checkout.GetTotalPrice());
         }
+
+        [Test]
+        public void Scan_MixedItems_ReturnsCorrectTotal()
+        {
+            var pricingRules = PricingRuleFactory.GetPricingRules();
+            ICheckout checkout = new Checkout(pricingRules);
+            checkout.Scan("A");
+            checkout.Scan("B");
+            checkout.Scan("A");
+            checkout.Scan("A");
+            checkout.Scan("B");
+            Assert.AreEqual(175, checkout.GetTotalPrice());
+        }
+
+        [Test]
+        public void Scan_MixedItemsWithSpecialPrice_ReturnsCorrectTotal()
+        {
+            var pricingRules = PricingRuleFactory.GetPricingRules();
+            ICheckout checkout = new Checkout(pricingRules);
+           
+            checkout.Scan("B");
+            checkout.Scan("A");
+            checkout.Scan("B");
+            Assert.AreEqual(95, checkout.GetTotalPrice());
+        }
+
+        [Test]
+        public void Scan_MixedItems_ReturnsCorrectTotalWithBCD()
+        {
+            var pricingRules = PricingRuleFactory.GetPricingRules();
+            ICheckout checkout = new Checkout(pricingRules);
+            checkout.Scan("B");
+            checkout.Scan("C");
+            checkout.Scan("D");
+            checkout.Scan("B");
+            Assert.AreEqual(80, checkout.GetTotalPrice());
+        }
     }
 }
