@@ -1,6 +1,7 @@
 ﻿using CheckoutSystem.Interfaces;
 using CheckoutSystem.Models;
 using CheckoutSystem.Services;
+using CheckoutSystem.Test.DataFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +22,14 @@ namespace CheckoutSystem.Test.Tests
         [Test]
         public void GetTotalPrice_NoItemsScanned_ReturnsZero()
         {
-            var pricingRules = new Dictionary<string, PricingRule>();
-            ICheckout checkout = new Checkout(pricingRules);
+            ICheckout checkout = new Checkout(PricingRuleFactory.GetPricingRules());
             Assert.AreEqual(0, checkout.GetTotalPrice());
         }
 
         [Test]
         public void Scan_SingleItemA_ReturnsCorrectPrice()
         {
-            var pricingRules = new Dictionary<string, PricingRule>
-            {
-                { "A", new PricingRule(50) }
-            };
-            ICheckout checkout = new Checkout(pricingRules);
+            ICheckout checkout = new Checkout(PricingRuleFactory.GetPricingRules());
             checkout.Scan("A");
             Assert.AreEqual(50, checkout.GetTotalPrice());
         }
@@ -41,12 +37,7 @@ namespace CheckoutSystem.Test.Tests
         [Test]
         public void Scan_ThreeItemsWithSpecialPrice_ReturnsDiscountedPrice()
         {
-            var pricingRules = new Dictionary<string, PricingRule>
-            {
-                { "A", new PricingRule(50, 3, 130) }
-            };
-
-            ICheckout checkout = new Checkout(pricingRules);
+            ICheckout checkout = new Checkout(PricingRuleFactory.GetPricingRules());
             checkout.Scan("A");
             checkout.Scan("A");
             checkout.Scan("A");
