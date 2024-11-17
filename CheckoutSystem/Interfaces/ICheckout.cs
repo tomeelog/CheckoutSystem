@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CheckoutSystem
+namespace CheckoutSystem.Interfaces
 {
-    internal class Services
+    public interface ICheckout
     {
+        void Scan(string item);
+        int GetTotalPrice();
     }
 }
