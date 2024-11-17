@@ -1,4 +1,5 @@
 ﻿using CheckoutSystem.Interfaces;
+using CheckoutSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace CheckoutSystem.Services
 {
     public class Checkout : ICheckout
     {
+        
         public void Scan(string item)
         {
            
