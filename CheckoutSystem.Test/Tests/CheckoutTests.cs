@@ -21,7 +21,8 @@ namespace CheckoutSystem.Test.Tests
         [Test]
         public void GetTotalPrice_NoItemsScanned_ReturnsZero()
         {
-            ICheckout checkout = new Checkout();
+            var pricingRules = new Dictionary<string, PricingRule>();
+            ICheckout checkout = new Checkout(pricingRules);
             Assert.AreEqual(0, checkout.GetTotalPrice());
         }
 
